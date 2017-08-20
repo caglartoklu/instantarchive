@@ -3,6 +3,9 @@
 
 If you drag and drop a file or a directory (or a multiple mix of them) on to the icon of *InstantBackup*, it will create a archive file for each of them.
 
+Here is a real-time screen recording of its usage:
+
+![InstantBackup usage](https://user-images.githubusercontent.com/2071639/29496015-8c64bd06-85d2-11e7-98cb-9166c24134ee.gif)
 
 # Installation
 No need to install, the package is portable.
