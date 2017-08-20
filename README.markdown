@@ -19,7 +19,7 @@ None, currently.
 # Tools and Libraries Used
 - [QB64](http://www.qb64.net/), QuickBasic 4.5 compatible compiler which supports Windows, Linux and Mac OS X.
 
-- [7-Zip](http://www.7-zip.org/license.txt) as the compression tool.
+- [7-Zip](http://www.7-zip.org) as the compression tool.
 
 - [XN Resource Editor Portable](https://portableapps.com/apps/utilities/xn_resource_editor_portable) to put the `.ico` file into the Windows `.exe` file.
 
@@ -42,7 +42,7 @@ See the [LICENSE](LICENSE.txt) file.
 
 For 7-Zip, most of the source code is under the GNU LGPL license.
 The unRAR code is under a mixed license: GNU LGPL + unRAR restrictions.
-Check license information here: [7-Zip license](7z/license.txt).
+Check license information here: [7-Zip license](7z/License.txt).
 
 
 
