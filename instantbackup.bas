@@ -222,6 +222,13 @@ FUNCTION SevenZipPath$
 END FUNCTION
 
 
+FUNCTION CompressionType$
+    ' Returns the compression type as a string.
+    ' CompressionType$ = "-t7z"
+    CompressionType$ = "-tzip"
+END FUNCTION
+
+
 SUB BackupItem (item AS STRING)
     ' Actually backups the item.
     ' item : a file or folder.
@@ -243,7 +250,7 @@ SUB BackupItem (item AS STRING)
     ' TODO: 4 check if it works when instantbackup.exe is placed to a folder with spaces.
     ' TODO: 4 same test should be done with files with spaces to backup.
     ' could not surround SevenZipPath$ with q, it gives an error after the call.
-    cmd = SevenZipPath$ + " a -t7z " + CompressionLevelSwitch$ + " " + q + zipFileName + q + " " + q + item + q
+    cmd = SevenZipPath$ + " a " + CompressionType$ + " " + CompressionLevelSwitch$ + " " + q + zipFileName + q + " " + q + item + q
     PRINT cmd
     SHELL cmd
 END SUB
