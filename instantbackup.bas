@@ -178,7 +178,7 @@ FUNCTION DetermineZipFileName$ (item AS STRING)
     ' item : a file or folder.
     DIM result AS STRING
     result = item
-    result = ReplaceAll$(result, ".", "_")
+    ' result = ReplaceAll$(result, ".", "_")
     result = result + "_" + TimeStamp$ + ".7z"
     DetermineZipFileName$ = result
 END FUNCTION
