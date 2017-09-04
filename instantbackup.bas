@@ -179,8 +179,18 @@ FUNCTION DetermineZipFileName$ (item AS STRING)
     DIM result AS STRING
     result = item
     ' result = ReplaceAll$(result, ".", "_")
-    result = result + "_" + TimeStamp$ + ".7z"
+    result = result + "_" + TimeStamp$ + ".zip"
     DetermineZipFileName$ = result
+END FUNCTION
+
+
+FUNCTION DetermineCommentFileName$ (item AS STRING)
+    ' Returns the comment file name to be created.
+    ' item : a file, but not a folder.
+    DIM result AS STRING
+    result = item
+    result = result + ".txt"
+    DetermineCommentFileName$ = result
 END FUNCTION
 
 
@@ -256,6 +266,129 @@ SUB BackupItem (item AS STRING)
 END SUB
 
 
+FUNCTION EndsWith% (haystack AS STRING, needle AS STRING)
+    ' Returns 1 if haystack ends with needle, 0 otherwise.
+    ' this function is case insensitive.
+    DIM result AS INTEGER
+    result = 0
+    IF LCASE$(RIGHT$(haystack, LEN(needle))) = LCASE$(needle) THEN
+        result = 1
+    END IF
+    EndsWith% = result
+END FUNCTION
+
+
+FUNCTION IsBackupFile% (fileName AS STRING)
+    ' Returns 1 if the file is a backup file created by InstantBackup, 0 otherwise.
+    ' TODO: 4 FUNCTION IsFileZipped% (filename AS STRING)
+    ' sample file name:
+    '          1         2
+    ' 12345678901234567890123456789
+    ' file1.bas_20170904_202048.zip
+    ' 98765432109876543210987654321
+    '          2         1
+
+    DIM result AS INTEGER
+    result = 1
+
+    DIM temp AS STRING
+    ' unify the extensions for easy detection
+    temp = ReplaceAll$(fileName, ".7z", ".zip")
+
+    ' check the file extension
+    IF EndsWith%(temp, ".zip") = 0 THEN
+        result = 0
+    END IF
+
+    ' check the first _
+    IF result = 1 THEN
+        temp = RIGHT$(temp, 20)
+        ' temp -> _20170904_202048.zip
+
+        IF LEFT$(temp, 1) <> "_" THEN
+            result = 0
+        END IF
+    END IF
+
+    ' check the last _
+    IF result = 1 THEN
+        IF MID$(temp, 10, 1) <> "_" THEN
+            result = 0
+        END IF
+    END IF
+
+    ' replace _ and numbers to see if there is anything left.
+    IF result = 1 THEN
+        temp = ReplaceAll$(temp, ".zip", "")
+        temp = ReplaceAll$(temp, "_", "")
+        temp = ReplaceAll$(temp, "0", "")
+        temp = ReplaceAll$(temp, "1", "")
+        temp = ReplaceAll$(temp, "2", "")
+        temp = ReplaceAll$(temp, "3", "")
+        temp = ReplaceAll$(temp, "4", "")
+        temp = ReplaceAll$(temp, "5", "")
+        temp = ReplaceAll$(temp, "6", "")
+        temp = ReplaceAll$(temp, "7", "")
+        temp = ReplaceAll$(temp, "8", "")
+        temp = ReplaceAll$(temp, "9", "")
+
+        IF LEN(temp) <> 0 THEN
+            result = 0
+        END IF
+
+    END IF
+
+    IsBackupFile% = result
+END FUNCTION
+
+
+SUB OpenTextEditor (fileName AS STRING)
+    ' Opens the file with default text editor.
+    DIM operatingSystem AS STRING
+    operatingSystem = DetectOs$
+    IF operatingSystem = "windows" THEN
+        SHELL _DONTWAIT "notepad " + CHR$(34) + fileName + CHR$(34)
+    ELSEIF operatingSystem = "debian" THEN
+        ' TODO: 6 OpenTextEditor() Debian compatibility
+    ELSEIF operatingSystem = "macosx" THEN
+        ' TODO: 6 OpenTextEditor() Mac OS x compatibility
+    END IF
+END SUB
+
+
+SUB AddCommentsForFile (backupFileName AS STRING)
+    ' Saves user comments to a file.
+    DIM commentFileName AS STRING ' the file to contain comments.
+    DIM fileHandle AS INTEGER
+
+    commentFileName = DetermineCommentFileName(backupFileName)
+
+    ' enter the name of the backup file to the comment file.
+    fileHandle = FREEFILE
+    OPEN commentFileName FOR APPEND AS #fileHandle
+    PRINT #fileHandle, commentFileName
+    CLOSE #fileHandle
+
+    OpenTextEditor (commentFileName)
+END SUB
+
+
+FUNCTION DetectOs$ ()
+    ' Detects the operating system and returns a string accordingly.
+    ' For Windows : "windows"
+    ' Note that the strings in BuildShellCommand$ and DetectOs$()
+    ' must be compatible.
+    ' If one of them is modified, the other must be modified too.
+
+    ' TODO: 5 Linux and Mac Support
+    DIM result AS STRING
+    IF ENVIRON$("windir") <> "" THEN
+        result = "windows"
+    END IF
+    DetectOs$ = result
+END FUNCTION
+
+
 SUB PressAnyKey
     ' Spin-waits until a key is pressed.
     DO
@@ -294,7 +427,14 @@ SUB Main
             IF item = "/help" OR item = "/?" THEN
                 CALL DisplayHelp
             ELSE
-                CALL BackupItem(item)
+                IF IsBackupFile%(item) = 1 THEN
+                    ' this is a backup file already.
+                    ' get user comments and save them to a separate file.
+                    CALL AddCommentsForFile(item)
+                ELSE
+                    ' backup this file.
+                    CALL BackupItem(item)
+                END IF
             END IF
         NEXT
     END IF
