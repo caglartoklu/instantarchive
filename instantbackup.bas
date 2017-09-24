@@ -18,6 +18,24 @@ CALL Main
 ' CALL MainTest
 
 
+FUNCTION CharBackslash$ ()
+    ' Returns \ character.
+    ' The main reason to use this function instead of a literal constant,
+    ' is Vim itself.
+    ' Even though BASIC is a language without escape characters,
+    ' Vim renders to code as if there are escape characters.
+    ' That results unbalanced and incorrect rendering.
+    ' This function ensures that backslash is not used in the code.
+    CharBackslash$ = CHR$(92)
+END FUNCTION
+
+
+FUNCTION CharFrontslash$ ()
+    ' Returns / character.
+    CharFrontslash$ = CHR$(47)
+END FUNCTION
+
+
 FUNCTION ExePath$
     ' Get path of the executable.
     ' http://www.qb64.net/wiki/index.php?title=QB64_FAQ#Q:_How_do_I_find_the_current_QB64_program_path_in_Windows_or_Linux.3F
@@ -40,7 +58,7 @@ FUNCTION ExePath$
         ExePath$ = LEFT$(fileName$, result)
         start = 1
         DO
-            posit = INSTR(start, ExePath$, "\")
+            posit = INSTR(start, ExePath$, CharBackslash$)
             IF posit THEN
                 last = posit
             END IF
@@ -76,7 +94,7 @@ FUNCTION PathSeparator$
     ' _OS$ example:
     ' [WINDOWS][32BIT]
     IF StartsWith%(_OS$, "[WINDOWS]") = -1 THEN
-        result = "\"
+        result = CharBackslash$
     ELSE
         result = "/"
     END IF
@@ -114,20 +132,20 @@ FUNCTION PathCombine$ (path1$, path2$)
     DIM len1 AS INTEGER
     DIM len2 AS INTEGER
     result = path1$ + PathSeparator$ + path2$
-    result = ReplaceAll$(result, "/", "\")
+    result = ReplaceAll$(result, "/", CharBackslash$)
     DO
         len1 = LEN(result)
-        result = ReplaceAll$(result, "\\", "\")
+        result = ReplaceAll$(result, CharBackslash$ + CharBackslash$, CharBackslash$)
         len2 = LEN(result)
         IF len1 = len2 THEN
             allReplaced = -1
         END IF
     LOOP UNTIL allReplaced = -1
 
-    ' at this point, all the separators are "\"
+    ' at this point, all the separators are '\'
     ' convert them to "/" if the OS is not Windows:
     IF PathSeparator$ = "/" THEN
-        result = ReplaceAll$(result, "\", "/")
+        result = ReplaceAll$(result, CharBackslash$, "/")
     END IF
 
     PathCombine$ = result
