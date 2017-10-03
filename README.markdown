@@ -29,8 +29,6 @@ None, currently.
 
 - [7-Zip](http://www.7-zip.org) as the compression tool.
 
-- [XN Resource Editor Portable](https://portableapps.com/apps/utilities/xn_resource_editor_portable) to put the `.ico` file into the Windows `.exe` file.
-
 
 # FAQ
 
