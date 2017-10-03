@@ -9,6 +9,13 @@ OPTION _EXPLICIT
 _TITLE "InstantBackup"
 ' _SCREENHIDE
 
+' If you get the following error:
+' File 'instantbackup.ico' not found
+' Copy the icon file to the location of qb64.exe temporarily.
+' qb64.exe searches the icon file in its own directory
+' instead of the project directoy.
+$EXEICON:'backup.ico'
+
 
 ' TODO: 4 structured documentation for functions
 ' TODO: 5 general mac and Linux compatibility and tests
