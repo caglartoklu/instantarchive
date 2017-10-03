@@ -95,6 +95,18 @@ FUNCTION StartsWith% (haystack AS STRING, needle AS STRING)
 END FUNCTION
 
 
+FUNCTION EndsWith% (haystack AS STRING, needle AS STRING)
+    ' Returns 1 if haystack ends with needle, 0 otherwise.
+    ' this function is case insensitive.
+    DIM result AS INTEGER
+    result = 0
+    IF LCASE$(RIGHT$(haystack, LEN(needle))) = LCASE$(needle) THEN
+        result = 1
+    END IF
+    EndsWith% = result
+END FUNCTION
+
+
 FUNCTION PathSeparator$
     ' Returns \ for Windows, / for Linux and Mac OS.
     DIM result AS STRING
@@ -289,18 +301,6 @@ SUB BackupItem (item AS STRING)
     PRINT cmd
     SHELL cmd
 END SUB
-
-
-FUNCTION EndsWith% (haystack AS STRING, needle AS STRING)
-    ' Returns 1 if haystack ends with needle, 0 otherwise.
-    ' this function is case insensitive.
-    DIM result AS INTEGER
-    result = 0
-    IF LCASE$(RIGHT$(haystack, LEN(needle))) = LCASE$(needle) THEN
-        result = 1
-    END IF
-    EndsWith% = result
-END FUNCTION
 
 
 FUNCTION IsBackupFile% (fileName AS STRING)
