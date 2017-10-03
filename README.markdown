@@ -5,7 +5,13 @@ If you drag and drop a file or a directory (or a multiple mix of them) on to the
 
 Here is a real-time screen recording of its usage:
 
-![InstantBackup usage](https://user-images.githubusercontent.com/2071639/29496015-8c64bd06-85d2-11e7-98cb-9166c24134ee.gif)
+![instantbackup_screen3](https://user-images.githubusercontent.com/2071639/31129245-a7f3c3da-a85c-11e7-8ab8-4db3b5120a3f.gif)
+
+InstantBackup also makes it easy to add comments to backup files.
+To do that, simply drag and drop the backup file to InstantBackup once more:
+
+![instantbackup_screen4_comments](https://user-images.githubusercontent.com/2071639/31129250-ad990a16-a85c-11e7-803f-461e743b49c5.gif)
+
 
 # Installation
 No need to install, the package is portable.
@@ -16,7 +22,6 @@ Then it will be ready to drag and drop files and directories.
 
 # Configuration
 None, currently.
-
 
 
 # Tools and Libraries Used
@@ -46,7 +51,6 @@ See the [LICENSE](LICENSE.txt) file.
 For 7-Zip, most of the source code is under the GNU LGPL license.
 The unRAR code is under a mixed license: GNU LGPL + unRAR restrictions.
 Check license information here: [7-Zip license](7z/License.txt).
-
 
 
 # Legal
