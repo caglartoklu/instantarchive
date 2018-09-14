@@ -6,11 +6,11 @@ OPTION _EXPLICIT
 ' $CONSOLE
 ' _DEST _CONSOLE
 
-_TITLE "InstantBackup"
+_TITLE "InstantArchive"
 ' _SCREENHIDE
 
 ' If you get the following error:
-' File 'instantbackup.ico' not found
+' File 'backup.ico' not found
 ' Copy the icon file to the location of qb64.exe temporarily.
 ' qb64.exe searches the icon file in its own directory
 ' instead of the project directoy.
@@ -294,7 +294,7 @@ SUB BackupItem (item AS STRING)
 
     q = CHR$(34)
     DIM cmd AS STRING
-    ' TODO: 4 check if it works when instantbackup.exe is placed to a folder with spaces.
+    ' TODO: 4 check if it works when instantarchive.exe is placed to a folder with spaces.
     ' TODO: 4 same test should be done with files with spaces to backup.
     ' could not surround SevenZipPath$ with q, it gives an error after the call.
     cmd = SevenZipPath$ + " a " + CompressionType$ + " " + CompressionLevelSwitch$ + " " + q + zipFileName + q + " " + q + item + q
@@ -304,7 +304,7 @@ END SUB
 
 
 FUNCTION IsBackupFile% (fileName AS STRING)
-    ' Returns 1 if the file is a backup file created by InstantBackup, 0 otherwise.
+    ' Returns 1 if the file is a backup file created by InstantArchive, 0 otherwise.
     ' TODO: 4 FUNCTION IsFileZipped% (filename AS STRING)
     ' sample file name:
     '          1         2
@@ -429,7 +429,7 @@ SUB DisplayHelp
     DIM cmd AS STRING
 
     COLOR 9, 1
-    PRINT "InstantBackup                                                                   "
+    PRINT "InstantArchive                                                                   "
     COLOR 7, 0
     PRINT
     PRINT "Instantly backup files and folders with timestamp and compression without configuration."

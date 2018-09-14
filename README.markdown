@@ -1,16 +1,16 @@
-# InstantBackup
-*InstantBackup* backups the files and folders at the same directory, adding a time stamp and compressing with 7z.
+# InstantArchive
+*InstantArchive* backups the files and folders at the same directory, adding a time stamp and compressing with 7z.
 
-If you drag and drop a file or a directory (or a multiple mix of them) on to the icon of *InstantBackup*, it will create a archive file for each of them.
+If you drag and drop a file or a directory (or a multiple mix of them) on to the icon of *InstantArchive*, it will create a archive file for each of them.
 
 Here is a real-time screen recording of its usage:
 
-![instantbackup_screen3](https://user-images.githubusercontent.com/2071639/31129245-a7f3c3da-a85c-11e7-8ab8-4db3b5120a3f.gif)
+![instantarchive_screen3](https://user-images.githubusercontent.com/2071639/31129245-a7f3c3da-a85c-11e7-8ab8-4db3b5120a3f.gif)
 
-InstantBackup also makes it easy to add comments to backup files.
-To do that, simply drag and drop the backup file to InstantBackup once more:
+InstantArchive also makes it easy to add comments to backup files.
+To do that, simply drag and drop the backup file to InstantArchive once more:
 
-![instantbackup_screen4_comments](https://user-images.githubusercontent.com/2071639/31129250-ad990a16-a85c-11e7-803f-461e743b49c5.gif)
+![instantarchive_screen4_comments](https://user-images.githubusercontent.com/2071639/31129250-ad990a16-a85c-11e7-803f-461e743b49c5.gif)
 
 
 # Installation
@@ -43,7 +43,7 @@ There are no pre-built binaries for Linux and Mac OS, but it will be available s
 
 # License
 
-InstantBackup is licensed with MIT.
+InstantArchive is licensed with MIT.
 See the [LICENSE](LICENSE.txt) file.
 
 For 7-Zip, most of the source code is under the GNU LGPL license.
