@@ -216,7 +216,8 @@ FUNCTION DetermineZipFileName$ (item AS STRING)
     DIM result AS STRING
     result = item
     ' result = ReplaceAll$(result, ".", "_")
-    result = result + "_" + TimeStamp$ + ".zip"
+    ' result = result + "_" + TimeStamp$ + ".zip"
+    result = result + "_" + TimeStamp$ + ".7z"
     DetermineZipFileName$ = result
 END FUNCTION
 
@@ -271,8 +272,8 @@ END FUNCTION
 
 FUNCTION CompressionType$
     ' Returns the compression type as a string.
-    ' CompressionType$ = "-t7z"
-    CompressionType$ = "-tzip"
+    CompressionType$ = "-t7z"
+    ' CompressionType$ = "-tzip"
 END FUNCTION
 
 
@@ -429,10 +430,12 @@ SUB DisplayHelp
     DIM cmd AS STRING
 
     COLOR 9, 1
-    PRINT "InstantArchive                                                                   "
+    PRINT "InstantArchive 1.2                                                              "
     COLOR 7, 0
     PRINT
     PRINT "Instantly backup files and folders with timestamp and compression without configuration."
+    PRINT "Home page: https://github.com/caglartoklu/instantarchive"
+    PRINT "See the README and LICENSE files for more information."
     CALL PressAnyKey
 
     ' TODO: 6 more display info needed.
