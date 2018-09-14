@@ -430,7 +430,7 @@ SUB DisplayHelp
     DIM cmd AS STRING
 
     COLOR 9, 1
-    PRINT "InstantArchive 1.2                                                              "
+    PRINT "InstantArchive 1.3                                                              "
     COLOR 7, 0
     PRINT
     PRINT "Instantly backup files and folders with timestamp and compression without configuration."
