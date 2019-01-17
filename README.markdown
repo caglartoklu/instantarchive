@@ -14,14 +14,56 @@ To do that, simply drag and drop the backup file to InstantArchive once more:
 
 
 # Installation
+
 No need to install, the package is portable.
-Simply extract the package to a directory of your choice,
-and then create a shortcut on your Desktop.
-Then it will be ready to drag and drop files and directories.
+Simply extract the package to a directory of your choice.
 
 
 # Configuration
+
 None, currently.
+
+
+# Usage
+
+There a few ways to use InstantArchive.
+
+## Desktop Shortcut to create files next to the source file/dirs
+
+Create a shortcut to InstantArchive.exe on your Desktop.
+To create a shortcut, simply right click and drag InstantArchive.exe to your desktop, and drop it.
+Then it will be ready to drag and drop files and directories.
+
+## Desktop Shortcut to create files next to the source file/dirs
+
+Create another shortcut to InstantArchive.exe on your Desktop.
+Edit the shortcut, and add `/t` and a folder of your choice.
+Full line for *Target* text box could look like this:
+
+```
+C:\bin\instantarchive\instantarchive.exe /t C:\Backups
+```
+
+![screenshot of shortcut with t parameter](https://user-images.githubusercontent.com/2071639/51331811-94c18e80-1a8b-11e9-8c54-ed9508ef0293.PNG)
+
+`/t` and the target directory name next to it makes InstantArchive to move the archive files to the target directory.
+
+## Copy your shortcuts to SendTo folder
+
+Hit Windows Key+R and type: shell:sendto and hit Enter.
+Copy your shortcuts from above steps to this folder.
+
+## Use .bat files for job descriptions.
+
+Samples have been provided in `backup_scripts` folder.
+As a sample, the source code for `backup_vim.bat` is also provided here:
+
+```
+cd %~dp0
+..\instantarchive.exe /t c:\BACKUPS\regular_backups\ C:\PortableApps\PortableApps\gVimPortable
+```
+
+Feel free to add more scripts.
 
 
 # Tools and Libraries Used

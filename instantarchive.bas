@@ -43,6 +43,17 @@ FUNCTION CharFrontslash$ ()
 END FUNCTION
 
 
+FUNCTION CharDoubleQuote$ ()
+    ' Returns / character.
+    CharDoubleQuote$ = CHR$(34)
+END FUNCTION
+
+
+FUNCTION TRIM$ (text$)
+    TRIM$ = LTRIM$(RTRIM$(text$))
+END FUNCTION
+
+
 FUNCTION ExePath$
     ' Get path of the executable.
     ' http://www.qb64.net/wiki/index.php?title=QB64_FAQ#Q:_How_do_I_find_the_current_QB64_program_path_in_Windows_or_Linux.3F
@@ -277,7 +288,7 @@ FUNCTION CompressionType$
 END FUNCTION
 
 
-SUB BackupItem (item AS STRING)
+SUB BackupItem (item AS STRING, targetDir AS STRING)
     ' Actually backups the item.
     ' item : a file or folder.
 
@@ -291,7 +302,7 @@ SUB BackupItem (item AS STRING)
     DIM zipFileName AS STRING
     DIM q AS STRING
     zipFileName = DetermineZipFileName$(item)
-    PRINT zipFileName
+    ' zipFileName is a full path to the file to be created.
 
     q = CHR$(34)
     DIM cmd AS STRING
@@ -301,6 +312,36 @@ SUB BackupItem (item AS STRING)
     cmd = SevenZipPath$ + " a " + CompressionType$ + " " + CompressionLevelSwitch$ + " " + q + zipFileName + q + " " + q + item + q
     PRINT cmd
     SHELL cmd
+
+    IF LEN(targetDir) > 0 THEN
+        CALL MoveItemToTargetDir(zipFileName, targetDir)
+    END IF
+END SUB
+
+
+SUB MoveItemToTargetDir (fullZipFileName AS STRING, targetDir AS STRING)
+    ' Moves the created archive file to a target folder, if specified.
+    ' Do not call this method directly, it is called from BackupItem()
+    ' Works only for Windows, more to come.
+    ' uses operating system command line parameters to move files.
+    ' fullZipFileName: C:\users\myuser\desktop\notes.txt_20190117_183359.7z
+    ' targetDir: C:\Backups
+    DIM os AS STRING
+    DIM cmd AS STRING
+    os = DetectOs$
+    IF os = "windows" THEN
+        PRINT "Moving file:"
+        PRINT "  " + fullZipFileName
+        PRINT "to:"
+        PRINT "  " + targetDir
+        cmd = "move " + CharDoubleQuote$ + fullZipFileName + CharDoubleQuote$ + " "
+        cmd = cmd + CharDoubleQuote$ + targetDir + CharDoubleQuote$
+        PRINT cmd
+        SHELL _HIDE cmd
+    ELSE
+        PRINT "Unsupported operating system:" + os
+        CALL PressAnyKey
+    END IF
 END SUB
 
 
@@ -430,7 +471,7 @@ SUB DisplayHelp
     DIM cmd AS STRING
 
     COLOR 9, 1
-    PRINT "InstantArchive 1.3                                                              "
+    PRINT "InstantArchive 1.4                                                              "
     COLOR 7, 0
     PRINT
     PRINT "Instantly backup files and folders with timestamp and compression without configuration."
@@ -446,14 +487,46 @@ SUB Main
     ' Program starts here.
     DIM i AS INTEGER
     DIM item AS STRING
+    DIM targetDir AS STRING
+    DIM formattedItem AS STRING
+    DIM waitingForTargetDir AS INTEGER
+
+    targetDir = "" ' means, to the same dir with the source item.
+    waitingForTargetDir = 0
 
     IF _COMMANDCOUNT = 0 THEN
         CALL DisplayHelp
     ELSE
+        ' detect if a target dir is specified
         FOR i = 1 TO _COMMANDCOUNT
             item = COMMAND$(i)
+            formattedItem = LCASE$(LTRIM$(item))
+            IF formattedItem = "/t" THEN
+                waitingForTargetDir = 1
+            ELSEIF waitingForTargetDir = 1 THEN
+                targetDir = item
+                waitingForTargetDir = 0
+            END IF
+        NEXT i
+
+        PRINT "targetDir: " + targetDir
+
+        ' actually traverse the list.
+        FOR i = 1 TO _COMMANDCOUNT
+            item = COMMAND$(i)
+            formattedItem = LCASE$(TRIM$(item))
             IF item = "/help" OR item = "/?" THEN
                 CALL DisplayHelp
+                EXIT FOR
+            ELSEIF waitingForTargetDir = 1 THEN
+                ' simply pass this value
+                ' this is actually the value after "/t".
+                ' that is, the target directory for backups.
+                ' skip it by ignoring it.
+                waitingForTargetDir = 0
+            ELSEIF formattedItem = "/t" THEN
+                ' simply pass the "/t" value
+                waitingForTargetDir = 1
             ELSE
                 IF IsBackupFile%(item) = 1 THEN
                     ' this is a backup file already.
@@ -461,7 +534,7 @@ SUB Main
                     CALL AddCommentsForFile(item)
                 ELSE
                     ' backup this file.
-                    CALL BackupItem(item)
+                    CALL BackupItem(item, targetDir)
                 END IF
             END IF
         NEXT
