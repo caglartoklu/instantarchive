@@ -2,3 +2,4 @@ instantbackup.exe
 instantarchive.exe
 .private
 .private/
+backup_scripts/
