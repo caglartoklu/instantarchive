@@ -14,7 +14,7 @@ _TITLE "InstantArchive"
 ' Copy the icon file to the location of qb64.exe temporarily.
 ' qb64.exe searches the icon file in its own directory
 ' instead of the project directoy.
-$EXEICON:'backup.ico'
+$EXEICON:'./backup.ico'
 
 
 ' TODO: 4 structured documentation for functions
