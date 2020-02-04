@@ -14,7 +14,7 @@ _TITLE "InstantArchive"
 ' Copy the icon file to the location of qb64.exe temporarily.
 ' qb64.exe searches the icon file in its own directory
 ' instead of the project directoy.
-$EXEICON:'./backup.ico'
+$EXEICON:'backup.ico'
 
 
 ' TODO: 4 structured documentation for functions
@@ -56,37 +56,12 @@ END FUNCTION
 
 FUNCTION ExePath$
     ' Get path of the executable.
-    ' http://www.qb64.net/wiki/index.php?title=QB64_FAQ#Q:_How_do_I_find_the_current_QB64_program_path_in_Windows_or_Linux.3F
-    ' TODO: 5 integrate Linux path on the same page.
-
-    ' Get path to executable in Windows
-    DECLARE LIBRARY ' Directory Information using KERNEL32 provided by Dav
-        FUNCTION GetModuleFileNameA (BYVAL Module AS LONG, FileName AS STRING, BYVAL nSize AS LONG)
-    END DECLARE
-
     DIM fileName$
-    DIM result AS INTEGER
-    DIM start AS INTEGER
     DIM posit AS INTEGER
-    DIM last AS INTEGER
 
-    fileName$ = SPACE$(400) ' Sometimes 256 characters for a full path name is not enough
-    result = GetModuleFileNameA(0, fileName$, LEN(fileName$)) '0 designates the current program
-    IF result THEN ' Result returns the length or bytes of the string information
-        ExePath$ = LEFT$(fileName$, result)
-        start = 1
-        DO
-            posit = INSTR(start, ExePath$, CharBackslash$)
-            IF posit THEN
-                last = posit
-            END IF
-            start = posit + 1
-        LOOP UNTIL posit = 0
-        ExePath$ = LEFT$(ExePath$, last)
-    ELSE
-        ExePath$ = ""
-    END IF
-    fileName$ = ""
+    fileName$ = COMMAND$(0)
+    posit = _INSTRREV(fileName$, CharBackslash$)
+    ExePath$ = LEFT$(fileName$, posit)
 END FUNCTION
 
 
