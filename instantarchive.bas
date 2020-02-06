@@ -9,7 +9,7 @@ OPTION _EXPLICIT
 _TITLE "InstantArchive"
 ' _SCREENHIDE
 
-$EXEICON:'/backup.ico'
+$EXEICON:'./backup.ico'
 
 
 ' TODO: 4 structured documentation for functions
