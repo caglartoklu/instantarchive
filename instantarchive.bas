@@ -168,9 +168,6 @@ FUNCTION TimeStamp$
     DIM month AS STRING
     DIM day AS STRING
     DIM hour_minute_second AS STRING
-    DIM hour AS STRING
-    DIM minute AS STRING
-    DIM second AS STRING
 
     currentDate = DATE$
     currentTime = TIME$
@@ -436,12 +433,8 @@ END SUB
 
 
 SUB DisplayHelp
-
-    DIM pressedkey AS STRING
-    DIM cmd AS STRING
-
     COLOR 9, 1
-    PRINT "InstantArchive 1.4                                                              "
+    PRINT "InstantArchive 1.5                                                              "
     COLOR 7, 0
     PRINT
     PRINT "Instantly backup files and folders with timestamp and compression without configuration."
