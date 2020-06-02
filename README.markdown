@@ -67,7 +67,7 @@ Feel free to add more scripts.
 
 
 # Tools and Libraries Used
-- [QB64](http://www.qb64.net/), QuickBasic 4.5 compatible compiler which supports Windows, Linux and Mac OS X.
+- [QB64](https://www.qb64.org/), QuickBasic 4.5 compatible compiler which supports Windows, Linux and Mac OS X.
 
 - [7-Zip](http://www.7-zip.org) as the compression tool.
 
